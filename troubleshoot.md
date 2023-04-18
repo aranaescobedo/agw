@@ -1,4 +1,5 @@
 # Troubleshoot Application Gateway
+This README contains a collection of solutions for common troubleshooting scenarios that may arise when using Azure Application Gateway.
 
 ## 403
 - Check that the configuration of the custom rules in the Application Gateway WAF policy (Web Application Firewall).
