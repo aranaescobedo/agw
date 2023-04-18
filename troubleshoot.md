@@ -1,5 +1,8 @@
 # Troubleshoot Application Gateway
 
+## 403
+- Check that the configuration of the custom rules in the Application Gateway WAF policy (Web Application Firewall).
+
 ## 404
 - ```annotations.appgw.ingress.kubernetes.io/appgw-ssl-certificate:``` Check that you are pointing against a valid certification name (stored in your Azure Key Vault) in your ingress file.
   
