@@ -4,7 +4,8 @@ let hostName = "<HOST_NAME>";
 let requestURL =  "<REQUEST_URL>";
 let startDate = ago(<TIME>);
 AzureDiagnostics 
-| where ResourceProvider == "MICROSOFT.NETWORK" and Category == "ApplicationGatewayFirewallLog"
+| where ResourceProvider == "MICROSOFT.NETWORK" 
+   and Category == "ApplicationGatewayFirewallLog"
    and action_s == actionStatus
    and hostname_s == hostName
    and Resource == toupper(agwName)
