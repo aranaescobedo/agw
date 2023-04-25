@@ -1,0 +1,17 @@
+let agwName = "<APPLICATION_GATEWAY_NAME>";
+let hostName = "<HOST_NAME>";
+let httpStatus = <HTTP_STATUS>;
+let requestURL =  "<REQUEST_URL>";
+let startDate = ago(<TIME>);
+AzureDiagnostics
+| where ResourceType == "APPLICATIONGATEWAYS"
+  and httpStatus_d == httpStatus
+  and originalHost_s ==  hostName
+  and Resource == toupper(agwName)
+  and requestUri_s has requestURL
+  and TimeGenerated > startDate
+
+//AP: Add host_s as a column in projects
+
+//The different timespan data type:
+//https://learn.microsoft.com/en-us/azure/data-explorer/kusto/query/scalar-data-types/timespan
