@@ -1,21 +1,22 @@
+let actionStatus = "Blocked";
 let agwName = "<APPLICATION_GATEWAY_NAME>";
-let customRuleName = "<CUSTOM_RULE_NAME>";
 let hostName = "<HOST_NAME>";
 let requestURL =  "<REQUEST_URL>";
-let startDate = ago(5d);
+let startDate = ago(<TIME>);
 AzureDiagnostics 
 | where ResourceProvider == "MICROSOFT.NETWORK" and Category == "ApplicationGatewayFirewallLog"
-   and timeStamp_t > startDate
-   and Resource == toupper(agwName)
+   and action_s == actionStatus
    and hostname_s == hostName
+   and Resource == toupper(agwName)
    and requestUri_s has requestURL
-   and ruleId_s == customRuleName
+   and timeStamp_t > startDate
 | project TimeStamp = timeStamp_t,
+          CustomerRule = ruleId_s,
           Action = action_s,
           IP = clientIp_s,
           HostName = hostname_s,
           RequestURL = requestUri_s
 | order by TimeStamp desc
 
-//The different timespa data type:
+//The different timespan data type:
 //https://learn.microsoft.com/en-us/azure/data-explorer/kusto/query/scalar-data-types/timespan
