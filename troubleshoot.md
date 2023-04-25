@@ -3,7 +3,7 @@ This README contains a collection of solutions for common troubleshooting scenar
 
 ## 403
 - Check that the configuration of the custom rules in the Application Gateway WAF policy (Web Application Firewall).
-- Check that your request comming into application gateway has the ```host_s``` in the call:
+- Check that the request coming into the Application Gateway has the ```host_s``` field in the call:
 - AP: ADD picture
 - AP: Add link to the query you are creating
 
