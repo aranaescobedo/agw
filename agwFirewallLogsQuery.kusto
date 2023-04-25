@@ -2,10 +2,10 @@ let agwName = "<APPLICATION_GATEWAY_NAME>";
 let customRuleName = "<CUSTOM_RULE_NAME>";
 let hostName = "<HOST_NAME>";
 let requestURL =  "<REQUEST_URL>";
-let endDate = now();
+let startDate = ago(5d);
 AzureDiagnostics 
 | where ResourceProvider == "MICROSOFT.NETWORK" and Category == "ApplicationGatewayFirewallLog"
-   and timeStamp_t > ago(5d)
+   and timeStamp_t > startDate
    and Resource == toupper(agwName)
    and hostname_s == hostName
    and requestUri_s has requestURL
