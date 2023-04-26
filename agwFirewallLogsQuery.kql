@@ -14,7 +14,7 @@ AzureDiagnostics
 | project TimeStamp = timeStamp_t,
           CustomerRule = ruleId_s,
           Action = action_s,
-          IP = clientIp_s,
+          SourceIP = clientIp_s,
           HostName = hostname_s,
           RequestURL = requestUri_s
 | order by TimeStamp desc
