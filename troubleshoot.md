@@ -1,4 +1,4 @@
-# Troubleshoot Application Gateway
+# 🕵️ Troubleshoot Application Gateway
 This README contains a collection of solutions for common troubleshooting scenarios that may arise when using Azure Application Gateway.
 
 ## 403
