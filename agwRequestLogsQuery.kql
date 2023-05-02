@@ -1,0 +1,31 @@
+let agwName = "<APPLICATION_GATEWAY_NAME>";
+let hostName = "<HOST_NAME>";
+let httpStatus = <HTTP_STATUS_CODE>;
+let requestURL =  "<REQUEST_URL>";
+let startDate = ago(<TIME>);
+AzureDiagnostics
+| where ResourceType == "APPLICATIONGATEWAYS"
+  and httpStatus_d == httpStatus
+  and originalHost_s ==  hostName
+  and Resource == toupper(agwName)
+  and requestUri_s has requestURL
+  and TimeGenerated > startDate
+| project TimeStamp = TimeGenerated,
+          OriginalHost = originalHost_s,
+          HostName = host_s,
+          RequestURL = requestUri_s,
+          HttpMethod = httpMethod_s,
+          HttpStatus = httpStatus_d,
+          SourceIP = clientIP_s,
+          SourcePort = clientPort_d,
+          DestinyIP = serverRouted_s,
+          Listeners = listenerName_s,
+          Rules = ruleName_s,
+          BackendSettings = backendSettingName_s,
+          BackendPools = backendPoolName_s
+| order by TimeStamp desc
+
+//Attn: If you are missing a value in the 'HostName' column, it could mean that your call is incomplete, and you may need to add 'host_s' to the originating call.
+
+//The different timespan data type:
+//https://learn.microsoft.com/en-us/azure/data-explorer/kusto/query/scalar-data-types/timespan
