@@ -5,6 +5,7 @@
 </p>
 
 ## Prerequisites
+- [A valid Azure account][azure-account]
 
 ## File Descriptions
 
@@ -18,5 +19,6 @@ Each file in this folder is designed to perform a specific task with AGW or prov
 ## Disclaimer
 Please note that this is provided as-is and may not suit all use cases. Use at your own discretion and make sure to thoroughly test before deployment in a production environment.
 
+[azure-account]: https://azure.microsoft.com/en-us/free
 [agwFirewallLogsQuery.kql]:agwFirewallLogsQuery.kql
 [agwRequestLogsQuery.kql]:agwRequestLogsQuery.kql
