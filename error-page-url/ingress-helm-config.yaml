@@ -14,7 +14,7 @@ appgw:
     # Setting appgw.shared to "true" creates an AzureIngressProhibitedTarget CRD.
     # This prohibits AGIC from applying config for any host/path.
     # Use "kubectl get AzureIngressProhibitedTargets" to view and change this.
-    shared: false
+    shared: true
 
 ################################################################################
 # Specify which kubernetes namespace the ingress controller must watch
