@@ -75,7 +75,7 @@ stages:
               scriptType: 'pscore'
               scriptLocation: 'scriptPath'
               scriptPath: 'update-agw-rule-ado.ps1'
-              arguments: '-agwName ${{ parameters.agwName}} -env ${{ parameters.environment }} -listenerHostName ${{ variables.listenerHostName}}'
+              arguments: '-agwName ${{ parameters.agwName}} -agwRsg ${{ parameters.agwRsg}} -env ${{ parameters.environment }} -listenerHostName ${{ variables.listenerHostName}}'
               workingDirectory: '$(System.DefaultWorkingDirectory)/error-page-url'
 
   - stage: delete_k8s_resource
