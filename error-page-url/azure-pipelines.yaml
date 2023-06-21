@@ -1,1 +1,98 @@
-...
+parameters:
+  - name: agwName
+    type: string
+  - name: agwRsg
+    type: string
+  - name: environment
+    type: string
+    values:
+      - test
+      - prod
+  - name: listenerHostName
+    type: string
+  - name: namespace
+    type: string
+
+name: $(Rev:r)-maintenance-page-${{ parameters.environment }}
+trigger: none
+
+variables:
+  aksServiceConnection: ingress-aks-${{ parameters.environment }}-connection-private
+  arm_service_connection: vi-arm-${{ parameters.environment }}-connection
+  listenerHostName: ${{ parameters.listenerHostName }}
+  listenerYamlName: 'listener-ingress-prohibited.yaml'
+  listenerYamlFilePath: 'scripts/maintenance-page/${{ variables.listenerYamlName }}'
+
+pool:
+  vmImage: ubuntu-latest
+  container: ubuntu:20.04 #TODO: REMOVE!
+
+stages:
+  - stage: apply_k8s_resource
+    displayName: Apply ingress prohibit
+    jobs:
+      - job: apply_k8s_resource
+        displayName: Apply k8s resource
+        steps:
+          - task: replacetokens@5
+            displayName: Replace placeholder
+            inputs:
+              targetFiles: ${{ variables.listenerYamlFilePath}}
+              encoding: 'auto'
+              tokenPattern: 'doublebraces'
+              writeBOM: true
+              actionOnMissing: 'warn'
+              keepToken: false
+              actionOnNoFiles: 'fail'
+              enableTransforms: false
+              enableRecursion: false
+              useLegacyPattern: false
+              enableTelemetry: true
+          - task: KubernetesManifest@1
+            displayName: Apply ingress yaml 
+            inputs:
+              action: 'deploy'
+              connectionType: 'kubernetesServiceConnection'
+              kubernetesServiceConnection: '${{ variables.aksServiceConnection}}'
+              namespace: ${{ parameters.namespace }}
+              manifests: '${{ variables.listenerYamlFilePath}}'
+          - task: PublishBuildArtifacts@1
+            inputs:
+              PathtoPublish: '${{ variables.listenerYamlFilePath}}'
+              ArtifactName: 'manifests'
+              publishLocation: 'Container'
+
+  - stage: uppdate_agw
+    displayName: Update agw stage
+    jobs:
+      - job: update_agw
+        displayName: Update AGW
+        steps:
+          - task: AzureCLI@2
+            displayName: Update AGW
+            inputs:
+              azureSubscription: '${{ variables.arm_service_connection }}'
+              scriptType: 'pscore'
+              scriptLocation: 'scriptPath'
+              scriptPath: 'scripts/maintenance-page/update-agw-rule-devops.ps1'
+              arguments: '-agwName ${{ parameters.agwName}} -env ${{ parameters.environment }} -listenerHostName ${{ variables.listenerHostName}}'
+              workingDirectory: '$(System.DefaultWorkingDirectory)/scripts/maintenance-page'
+
+  - stage: delete_k8s_resource
+    displayName: Delete ingress prohibit
+    jobs:
+    - deployment: delete_k8s_resource
+      displayName: Delete k8s resource
+      environment: ingress-${{ parameters.environment }}
+      strategy:
+        runOnce:
+          deploy:
+            steps:
+              - task: KubernetesManifest@1
+                displayName: Delete ingress yaml
+                inputs:
+                  action: 'delete'
+                  connectionType: 'kubernetesServiceConnection'
+                  kubernetesServiceConnection: '${{ variables.aksServiceConnection}}'
+                  namespace: '${{ parameters.namespace }}'
+                  arguments: '-f $(Pipeline.Workspace)/manifests/${{ variables.listenerYamlName }}'
