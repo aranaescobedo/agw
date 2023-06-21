@@ -21,7 +21,7 @@ variables:
   arm_service_connection: vi-arm-${{ parameters.environment }}-connection
   listenerHostName: ${{ parameters.listenerHostName }}
   listenerYamlName: 'listener-ingress-prohibited.yaml'
-  listenerYamlFilePath: 'scripts/maintenance-page/${{ variables.listenerYamlName }}'
+  listenerYamlFilePath: 'error-page-url/${{ variables.listenerYamlName }}'
 
 pool:
   vmImage: ubuntu-latest
@@ -74,9 +74,9 @@ stages:
               azureSubscription: '${{ variables.arm_service_connection }}'
               scriptType: 'pscore'
               scriptLocation: 'scriptPath'
-              scriptPath: 'scripts/maintenance-page/update-agw-rule-devops.ps1'
+              scriptPath: 'update-agw-rule-ado.ps1'
               arguments: '-agwName ${{ parameters.agwName}} -env ${{ parameters.environment }} -listenerHostName ${{ variables.listenerHostName}}'
-              workingDirectory: '$(System.DefaultWorkingDirectory)/scripts/maintenance-page'
+              workingDirectory: '$(System.DefaultWorkingDirectory)/error-page-url'
 
   - stage: delete_k8s_resource
     displayName: Delete ingress prohibit
