@@ -1,0 +1,24 @@
+let actionStatus = "Matched";
+//let agwName = "<APPLICATION_GATEWAY_NAME>";
+let hostName = "<HOST_NAME>";
+let requestURL = "<REQUEST_URL>";
+let startDate = ago(<TIME>);
+AzureDiagnostics 
+| where ResourceProvider == "MICROSOFT.NETWORK" 
+   and Category == "ApplicationGatewayFirewallLog"
+   and action_s == actionStatus
+   and hostname_s == hostName
+   //and Resource == toupper(agwName)
+   and requestUri_s has requestURL
+   and timeStamp_t > startDate
+| project TimeStamp = timeStamp_t,
+          ManagedRuleSet = ruleSetType_s,
+          ruleVersion = ruleSetVersion_s,
+          ManagedRuleId = ruleId_s,
+          Message = Message,
+          RuleGroup = ruleGroup_s,
+          DetailsMessage = details_message_s,
+          SourceIP = clientIp_s,
+          HostName = hostname_s,
+          RequestURL = requestUri_s
+| order by TimeStamp desc

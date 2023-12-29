@@ -9,9 +9,11 @@
 
 ## File Descriptions
 
-- **[agwFirewallLogsQuery.kql]**: The query retrieves Azure Application Gateway firewall logs where a specific action was blocked, filtered by hostname, gateway name, and request URL.
+- **[agw-request-logs.kql]**:  The query filters Application Gateway logs based on the HTTP status code, original host, and request URL, among other parameters, to pinpoint issues.
 
-- **[agwRequestLogsQuery.kql]**:  The query filters Application Gateway logs based on the HTTP status code, original host, and request URL, among other parameters, to pinpoint issues.
+- **[blocked-agw-firewall-logs.kql]**: The query retrieves Azure Application Gateway firewall logs where a specific action was blocked, filtered by hostname, gateway name, and request URL.
+
+- **[matched-agw-firewall-logs.kql]**: This query identify which managed rules are blocking incoming requests to the application gateway.
 
 - **[troubleshoot.md]**: The readme file provides troubleshooting information and solutions for various issues related to Azure Application Gateway.
 
@@ -22,6 +24,7 @@ Each file in this folder is designed to perform a specific task with AGW or prov
 Please note that this is provided as-is and may not suit all use cases. Use at your own discretion and make sure to thoroughly test before deployment in a production environment.
 
 [azure-account]: https://azure.microsoft.com/en-us/free
-[agwFirewallLogsQuery.kql]:agwFirewallLogsQuery.kql
-[agwRequestLogsQuery.kql]:agwRequestLogsQuery.kql
+[agw-request-logs.kql]:agw-request-logs.kql
+[blocked-agw-firewall-logs.kql]:blocked-agw-firewall-logs.kql
+[matched-agw-firewall-logs.kql]:matched-agw-firewall-logs.kql
 [troubleshoot.md]:troubleshoot.md
