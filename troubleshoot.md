@@ -8,10 +8,10 @@ This README contains a collection of solutions for common troubleshooting scenar
 - Check that the request coming into the Application Gateway has the ```host_s``` field in the call:
   - Use **[blocked-agw-firewall-logs.kql]** to troubleshoot.
 
+![log image](/images/log.png)
+
 - Ensure incoming requests to the Application Gateway are not blocked by a managed rule.
   - Use **[matched-agw-firewall-logs.kql]** to troubleshoot.
-
-![log image](/images/log.png)
 
 ## 404
 - Check that you are pointing to a valid certificate name (stored in your Azure Key Vault) in your ingress file: ```annotations.appgw.ingress.kubernetes.io/appgw-ssl-certificate:```
