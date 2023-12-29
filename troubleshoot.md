@@ -15,7 +15,7 @@ This README contains a collection of solutions for common troubleshooting scenar
 
 ## 404
 - Check that you are pointing to a valid certificate name (stored in your Azure Key Vault) in your ingress file: ```annotations.appgw.ingress.kubernetes.io/appgw-ssl-certificate:```
-- Check that your 
+- Ensure the hostname in your Application Gateway matches the certificate's Subject Alternative Name (SAN) to avoid errors due to certificate mismatch.
   
 ## 500 or 502 (Bad gateway)
 
