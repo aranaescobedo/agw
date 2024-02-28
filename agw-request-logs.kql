@@ -19,6 +19,7 @@ AzureDiagnostics
           SourceIP = clientIP_s,
           SourcePort = clientPort_d,
           DestinyIP = serverRouted_s,
+          WAFPolicyID = tostring(split(WAFPolicyID_s, "/")[-1]),
           Listeners = listenerName_s,
           Rules = ruleName_s,
           BackendSettings = backendSettingName_s,
